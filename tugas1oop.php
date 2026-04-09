@@ -1,97 +1,136 @@
 <?php
-    class produk {
-        private $kodeProduk;
-        private $namaProduk;
-        private $harga;
 
+class Produk {
+    private $kodeProduk;
+    private $namaProduk;
+    private $harga;
 
-        public function __construct($kodeProduk, $namaProduk, $harga) {
-            $this->kodeProduk = $kodeProduk;
-            $this->namaProduk = $namaProduk;
-            $this->harga = $harga;
-        }
-
-        public function getKodeProduk(){
-            return $this->$kodeProduk;
-        }
-
-        public function setKodeProduk(){
-            $this->kodeProduk = $kodeProduk;
-        }
-
-        public function getNamaProduk(){
-            return $this->$namaProduk;
-        }
-
-        public function setNamaProduk(){
-            $this->namaProduk = $namaProduk;
-        }
-
-        public function getHarga(){
-            return $this->$harga;
-        }
-
-        public function setHarga(){
-            $this->harga = $harga;
-        }
-
-        public function tampilkanInfo(){
-            return "Kode: {$this->kodeProduk}, Nama: {$this->namaProduk}, Harga: {$this->harga}";
-        }
+    public function __construct($kodeProduk, $namaProduk, $harga) {
+        $this->kodeProduk = $kodeProduk;
+        $this->namaProduk = $namaProduk;
+        $this->harga = $harga;
     }
 
-    class Elektronik extends Produk {
-            private $garansi;
+    public function setKodeProduk($kodeProduk) {
+        $this->kodeProduk = $kodeProduk;
+    }
 
-            public function __construct($kodeProduk, $namaProduk, $harga, $garansi) {
-                parent:: __construct($kodeProduk, $namaProduk, $harga); 
-                    $this->garansi = $garansi;
-            }
+    public function getKodeProduk() {
+        return $this->kodeProduk;
+    }
 
-            public function getGaransi(){
-                return $this->$garansi;
-            }
+    public function setNamaProduk($namaProduk) {
+        $this->namaProduk = $namaProduk;
+    }
 
-            public function setGaransi(){
-                $this->garansi = $garansi;
-            }
+    public function getNamaProduk() {
+        return $this->namaProduk;
+    }
 
-            public function tampilkanInfo(){
-                return parent::tampilkanInfo()."Garansi: {$this->garansi} tahun";
-            }
+    public function setHarga($harga) {
+        $this->harga = $harga;
+    }
+
+    public function getHarga() {
+        return $this->harga;
+    }
+
+    public function tampilkanInfo() {
+        return "
+        <p><b>Kode Produk:</b> {$this->getKodeProduk()}</p>
+        <p><b>Nama Produk:</b> {$this->getNamaProduk()}</p>
+        <p><b>Harga:</b> Rp " . number_format($this->getHarga(), 0, ',', '.') . "</p>
+        ";
+    }
+}
+
+class Elektronik extends Produk {
+    private $garansi;
+
+    public function __construct($kodeProduk, $namaProduk, $harga, $garansi) {
+        parent::__construct($kodeProduk, $namaProduk, $harga);
+        $this->garansi = $garansi;
+    }
+
+    public function setGaransi($garansi) {
+        $this->garansi = $garansi;
+    }
+
+    public function getGaransi() {
+        return $this->garansi;
+    }
+
+    public function tampilkanInfo() {
+        return parent::tampilkanInfo() . "
+        <p><b>Garansi:</b> {$this->getGaransi()}</p>
+        ";
+    }
+}
+
+class Handphone extends Elektronik {
+    private $merk;
+
+    public function __construct($kodeProduk, $namaProduk, $harga, $garansi, $merk) {
+        parent::__construct($kodeProduk, $namaProduk, $harga, $garansi);
+        $this->merk = $merk;
+    }
+
+    public function setMerk($merk) {
+        $this->merk = $merk;
+    }
+
+    public function getMerk() {
+        return $this->merk;
+    }
+
+    public function tampilkanInfo() {
+        return "
+        <p><b>Kode Produk:</b> {$this->getKodeProduk()}</p>
+        <p><b>Nama Produk:</b> {$this->getNamaProduk()}</p>
+        <p><b>Harga:</b> Rp " . number_format($this->getHarga(), 0, ',', '.') . "</p>
+        <p><b>Garansi:</b> {$this->getGaransi()}</p>
+        <p><b>Merk:</b> {$this->getMerk()}</p>
+        ";
+    }
+}
+
+$produk1 = new Elektronik("EL01", "Mesin Cuci", 2500000, "2 Tahun");
+$produk2 = new Handphone("HP01", "iQOO 15R", 7300000, "1 Tahun", "iQOO");
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manajemen Produk Elektronik</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 20px;
         }
-
-    class Handphone extends Elektronik {
-        private $merk;
-
-        public function __construct($kodeProduk, $namaProduk, $harga, $garansi, $merk) {
-            $this->merk = $merk;
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        public function getMerk(){
-            return $this->$merk;
+        h1 {
+            text-align: center;
         }
+    </style>
+</head>
+<body>
+    <h1>Sistem Manajemen Produk Elektronik</h1>
 
-        public function setMerk(){
-            $this->merk = $merk;
-        }
+    <div class="card">
+        <h2>Data Produk 1</h2>
+        <?php echo $produk1->tampilkanInfo(); ?>
+    </div>
 
-        public function tampilkanInfo(){
-            return parent::tampilkanInfo()."Merk: {$this->merk}";
-        }
-    }    
-
-    $Elektronik = new produk ("E01", "mesincuci", 2000000, 3);
-    $Handphone = new produk ("H01", "smartphone", 7299000, 1, "iQoo");
-    $Elektronik2 = new produk ("E02", "kipasangin", 250000, 1);
-    $Handphone2 = new produk ("H02", "smartphone", 17000000, 1, "IPhone");
-
-
-    echo $Elektronik->tampilkanInfo();
-    echo "<br>";
-    echo $Handphone->tampilkanInfo();
-    echo "<br>";
-    echo $Handphone2->tampilkanInfo();
-    echo "<br>";
-    echo $Elektronik2->tampilkanInfo();
-    ?>
+    <div class="card">
+        <h2>Data Produk 2</h2>
+        <?php echo $produk2->tampilkanInfo(); ?>
+    </div>
+</body>
+</html>
